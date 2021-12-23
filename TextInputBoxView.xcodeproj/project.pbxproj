@@ -26,6 +26,7 @@
 		253F850327744AD400071E62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		253F850527744AD400071E62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		253F850B27744AE500071E62 /* TextInputBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputBoxView.swift; sourceTree = "<group>"; };
+		25C454E827749F8E00DC8D24 /* TextInputBoxView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TextInputBoxView.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 		253F84F627744AD200071E62 /* TextInputBoxView */ = {
 			isa = PBXGroup;
 			children = (
+				25C454E827749F8E00DC8D24 /* TextInputBoxView.entitlements */,
 				2566372B277477DF0006F42D /* AppDelegate */,
 				253F850B27744AE500071E62 /* TextInputBoxView.swift */,
 				253F84FB27744AD200071E62 /* ViewController.swift */,
@@ -299,6 +301,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TextInputBoxView/TextInputBoxView.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3TH3PN3T66;
@@ -317,6 +320,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jsdong.TextInputBoxView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -328,6 +332,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TextInputBoxView/TextInputBoxView.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3TH3PN3T66;
@@ -346,6 +351,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jsdong.TextInputBoxView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
