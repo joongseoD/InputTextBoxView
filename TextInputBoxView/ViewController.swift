@@ -28,7 +28,7 @@ final class ViewController: UIViewController {
     }()
     
     private lazy var textInputBoxView: TextInputBoxView = {
-        let view = TextInputBoxView(delegate: self)
+        let view = TextInputBoxView(delegate: self, textViewMaximumHeight: 200)
         view.textColor = .black
         view.infoLabel.text = "Hello Damor"
         view.buttonTitleColor = .blue

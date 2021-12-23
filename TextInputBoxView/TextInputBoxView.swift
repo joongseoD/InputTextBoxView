@@ -18,7 +18,7 @@ final class TextInputBoxView: UIView {
     
     // MARK: - Private Properties
     private let textViewTopMargin: CGFloat = 10.0
-    private let textViewMaximumHeight: CGFloat = 100.0
+    private var textViewMaximumHeight: CGFloat = 100.0
     
     private lazy var containerStackView: UIStackView = {
         let stackView = UIStackView()
@@ -155,9 +155,10 @@ final class TextInputBoxView: UIView {
         removeKeyboardObserver()
     }
     
-    convenience init(delegate: TextInputBoxViewDelegate) {
+    convenience init(delegate: TextInputBoxViewDelegate, textViewMaximumHeight: CGFloat = 100) {
         self.init(frame: .zero)
         self.delegate = delegate
+        self.textViewMaximumHeight = textViewMaximumHeight
     }
     
     required init?(coder: NSCoder) {
