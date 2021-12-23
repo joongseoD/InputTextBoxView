@@ -42,18 +42,20 @@ class ViewController: UIViewController {
     
     @objc
     func didTapOpen() {
-        textInputBoxView.show(container: view)
+        textInputBoxView.open(anchorView: view)
     }
     
     @objc
     func didTapClose() {
-        textInputBoxView.dismiss()
+        textInputBoxView.close()
     }
 }
 
 extension ViewController: TextInputBoxViewDelegate {
     func didTapComplete(_ text: String?) {
         print("## text ", text ?? "")
+        
+//        textInputBoxView.close()
     }
     
     func didTapInfoView() {

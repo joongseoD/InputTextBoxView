@@ -13,7 +13,7 @@ protocol TextInputBoxViewDelegate: AnyObject {
 }
 
 final class TextInputBoxView: UIView {
-    weak var container: UIView?
+    weak var anchorView: UIView?
     weak var delegate: TextInputBoxViewDelegate?
     
     // MARK: - Private Properties
@@ -195,13 +195,16 @@ final class TextInputBoxView: UIView {
     }
     
     @objc
-    func didTapComplete() { delegate?.didTapComplete(textView.text) }
+    func didTapComplete() {
+        delegate?.didTapComplete(textView.text)
+        textView.text = nil
+    }
     
     @objc
     func didTapInfoView() { delegate?.didTapInfoView() }
     
     @objc
-    func didTapBackground() { dismiss() }
+    func didTapBackground() { close() }
     
     private func checkAvailable() {
         completeButton.isEnabled = !textView.text.isEmpty
@@ -233,37 +236,40 @@ final class TextInputBoxView: UIView {
 }
 
 extension TextInputBoxView {
-    func show(container: UIView) {
+    func open(anchorView: UIView) {
         setupViews()
         checkAvailable()
         
-        UIView.transition(with: container, duration: 0.1, options: .transitionCrossDissolve) { [weak self] in
+        UIView.transition(with: anchorView, duration: 0.1, options: .transitionCrossDissolve) { [weak self] in
             guard let self = self else { return }
-            container.addSubview(self)
+            anchorView.addSubview(self)
             NSLayoutConstraint.activate([
-                self.topAnchor.constraint(equalTo: container.topAnchor),
-                self.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-                self.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-                self.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+                self.topAnchor.constraint(equalTo: anchorView.topAnchor),
+                self.leadingAnchor.constraint(equalTo: anchorView.leadingAnchor),
+                self.trailingAnchor.constraint(equalTo: anchorView.trailingAnchor),
+                self.bottomAnchor.constraint(equalTo: anchorView.bottomAnchor)
             ])
         } completion: { _ in
             self.textView.becomeFirstResponder()
         }
         
-        self.container = container
+        self.anchorView = anchorView
     }
     
-    func dismiss() {
-        guard let container = container else { return }
+    @discardableResult
+    func close() -> String? {
+        guard let anchorView = anchorView else { return textView.text }
         textView.resignFirstResponder()
         
-        UIView.transition(with: container, duration: 0.1, options: .transitionCrossDissolve) { [weak self] in
+        UIView.transition(with: anchorView, duration: 0.1, options: .transitionCrossDissolve) { [weak self] in
             self?.removeFromSuperview()
         } completion: { _ in
             
         }
         
-        self.container = nil
+        self.anchorView = nil
+        
+        return textView.text
     }
 }
 
