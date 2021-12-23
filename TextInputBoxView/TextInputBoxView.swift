@@ -81,7 +81,9 @@ final class TextInputBoxView: UIView {
         return textView.heightAnchor.constraint(equalToConstant: textViewEstimatedHeight)
     }()
     
-    private var containerViewBottomConstraint: NSLayoutConstraint?
+    private lazy var containerViewBottomConstraint: NSLayoutConstraint = {
+        return containerStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+    }()
     
     // MARK: - Internal Properties
     var dimColor: UIColor = .black.withAlphaComponent(0.5) {
@@ -146,11 +148,11 @@ final class TextInputBoxView: UIView {
         addGestureRecognizer(backgroundTapGesture)
         backgroundColor = dimColor
         
-        if #available(iOS 15.0, *) {
-            // iOS 15 이상 버전에는 keyboardLayoutGuide에 anchor
-        } else {
-            registKeyboardEvent()
-        }
+        registKeyboardObserver()
+    }
+    
+    deinit {
+        removeKeyboardObserver()
     }
     
     convenience init(delegate: TextInputBoxViewDelegate) {
@@ -165,11 +167,10 @@ final class TextInputBoxView: UIView {
     func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(containerStackView)
-        setupContainerBottomConstraint()
         
         NSLayoutConstraint.activate([
             // container stack view
-            containerViewBottomConstraint!,
+            containerViewBottomConstraint,
             containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
@@ -186,18 +187,11 @@ final class TextInputBoxView: UIView {
         ])
     }
     
-    private func setupContainerBottomConstraint() {
-        if #available(iOS 15.0, *) {
-            containerViewBottomConstraint = containerStackView.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor)
-        } else {
-            containerViewBottomConstraint = containerStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
-        }
-    }
-    
     @objc
     func didTapComplete() {
         delegate?.didTapComplete(textView.text)
         textView.text = nil
+        textViewDidChange(textView)
     }
     
     @objc
@@ -210,10 +204,15 @@ final class TextInputBoxView: UIView {
         completeButton.isEnabled = !textView.text.isEmpty
     }
 
-    // MARK: - iOS 14 하위
-    private func registKeyboardEvent() {
+    //MARK: - Keyboard Event
+    private func registKeyboardObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc
@@ -222,16 +221,16 @@ final class TextInputBoxView: UIView {
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         
-        containerViewBottomConstraint?.constant = -(keyboardHeight - safeAreaInsets.bottom)
+        containerViewBottomConstraint.constant = -(keyboardHeight - safeAreaInsets.bottom)
         
-        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut) {
-            self.layoutIfNeeded()
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) { [weak self] in
+            self?.layoutIfNeeded()
         }
     }
     
     @objc
     func keyboardWillHide(_ sender: Notification) {
-        containerViewBottomConstraint?.constant = 0
+        containerViewBottomConstraint.constant = 0
     }
 }
 
@@ -249,8 +248,8 @@ extension TextInputBoxView {
                 self.trailingAnchor.constraint(equalTo: anchorView.trailingAnchor),
                 self.bottomAnchor.constraint(equalTo: anchorView.bottomAnchor)
             ])
-        } completion: { _ in
-            self.textView.becomeFirstResponder()
+        } completion: { [weak self] _ in
+            self?.textView.becomeFirstResponder()
         }
         
         self.anchorView = anchorView
@@ -263,9 +262,7 @@ extension TextInputBoxView {
         
         UIView.transition(with: anchorView, duration: 0.1, options: .transitionCrossDissolve) { [weak self] in
             self?.removeFromSuperview()
-        } completion: { _ in
-            
-        }
+        } completion: { _ in }
         
         self.anchorView = nil
         
