@@ -58,9 +58,8 @@
 		253F84F627744AD200071E62 /* TextInputBoxView */ = {
 			isa = PBXGroup;
 			children = (
+				2566372B277477DF0006F42D /* AppDelegate */,
 				253F850B27744AE500071E62 /* TextInputBoxView.swift */,
-				253F84F727744AD200071E62 /* AppDelegate.swift */,
-				253F84F927744AD200071E62 /* SceneDelegate.swift */,
 				253F84FB27744AD200071E62 /* ViewController.swift */,
 				253F84FD27744AD200071E62 /* Main.storyboard */,
 				253F850027744AD400071E62 /* Assets.xcassets */,
@@ -68,6 +67,15 @@
 				253F850527744AD400071E62 /* Info.plist */,
 			);
 			path = TextInputBoxView;
+			sourceTree = "<group>";
+		};
+		2566372B277477DF0006F42D /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				253F84F727744AD200071E62 /* AppDelegate.swift */,
+				253F84F927744AD200071E62 /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
