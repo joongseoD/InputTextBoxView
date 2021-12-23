@@ -13,7 +13,6 @@ protocol TextInputBoxViewDelegate: AnyObject {
 }
 
 final class TextInputBoxView: UIView {
-    
     weak var container: UIView?
     weak var delegate: TextInputBoxViewDelegate?
     
@@ -145,7 +144,7 @@ final class TextInputBoxView: UIView {
         
         let backgroundTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapBackground))
         addGestureRecognizer(backgroundTapGesture)
-        backgroundColor = .black.withAlphaComponent(0.5)
+        backgroundColor = dimColor
         
         if #available(iOS 15.0, *) {
             // iOS 15 이상 버전에는 keyboardLayoutGuide에 anchor
