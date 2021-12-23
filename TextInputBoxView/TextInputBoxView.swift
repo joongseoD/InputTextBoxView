@@ -169,17 +169,14 @@ final class TextInputBoxView: UIView {
         addSubview(containerStackView)
         
         NSLayoutConstraint.activate([
-            // container stack view
             containerViewBottomConstraint,
             containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            // input box
             completeButton.widthAnchor.constraint(equalToConstant: 60),
             completeButton.heightAnchor.constraint(equalToConstant: 50),
             textViewHeightConstraint,
             
-            // top view
             topView.heightAnchor.constraint(equalToConstant: 80),
             infoLabel.leadingAnchor.constraint(equalTo: topView.leadingAnchor, constant: 15),
             infoLabel.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -15),

@@ -7,8 +7,17 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
 
+    private let label: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+    
     private let openButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -32,11 +41,21 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(openButton)
+        view.addSubview(label)
+        
+        let labelBottomConstraint = label.bottomAnchor.constraint(equalTo: openButton.topAnchor, constant: -15)
+        labelBottomConstraint.priority = .defaultHigh
         
         NSLayoutConstraint.activate([
             openButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             openButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             openButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            labelBottomConstraint,
         ])
     }
     
@@ -53,9 +72,7 @@ class ViewController: UIViewController {
 
 extension ViewController: TextInputBoxViewDelegate {
     func didTapComplete(_ text: String?) {
-        print("## text ", text ?? "")
-        
-//        textInputBoxView.close()
+        label.text = text
     }
     
     func didTapInfoView() {
