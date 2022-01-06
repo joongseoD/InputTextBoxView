@@ -61,12 +61,12 @@ final class ViewController: UIViewController {
     
     @objc
     func didTapOpen() {
-        textInputBoxView.open(anchorView: view)
+        textInputBoxView.attach(to: view)
     }
     
     @objc
     func didTapClose() {
-        textInputBoxView.close()
+        textInputBoxView.detach()
     }
 }
 

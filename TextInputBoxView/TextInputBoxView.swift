@@ -196,7 +196,7 @@ final class TextInputBoxView: UIView {
     func didTapInfoView() { delegate?.didTapInfoView() }
     
     @objc
-    func didTapBackground() { close() }
+    func didTapBackground() { detach() }
     
     private func checkAvailable() {
         completeButton.isEnabled = !textView.text.isEmpty
@@ -233,7 +233,7 @@ final class TextInputBoxView: UIView {
 }
 
 extension TextInputBoxView {
-    func open(anchorView: UIView) {
+    func attach(to anchorView: UIView) {
         setupViews()
         checkAvailable()
         
@@ -254,7 +254,7 @@ extension TextInputBoxView {
     }
     
     @discardableResult
-    func close() -> String? {
+    func detach() -> String? {
         guard let anchorView = anchorView else { return textView.text }
         textView.resignFirstResponder()
         
